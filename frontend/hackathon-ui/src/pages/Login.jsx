@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import * as Icons from 'lucide-react';
 import axios from 'axios';
@@ -12,6 +12,10 @@ const Login = () => {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
     const navigate = useNavigate();
+
+    useEffect(() => {
+        document.title = "PlaThon - Connexion";
+    }, []);
 
     const handleLogin = async (e) => {
         e.preventDefault();

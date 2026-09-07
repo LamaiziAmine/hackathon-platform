@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import * as Icons from 'lucide-react';
 import axios from 'axios';
@@ -19,6 +19,10 @@ const Register = () => {
     const [error, setError] = useState('');
     const [success, setSuccess] = useState(false);
     const navigate = useNavigate();
+
+    useEffect(() => {
+        document.title = "PlaThon - Inscription";
+    }, []);
 
     const handleRegister = async (e) => {
         e.preventDefault();
