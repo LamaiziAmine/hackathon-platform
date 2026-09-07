@@ -1,0 +1,78 @@
+### 1. Enregistrer un utilisateur
+POST http://localhost:8081/auth/register
+Content-Type: application/json
+
+{
+  "name": "Amine",
+  "email": "amine@test.com",
+  "password": "pass123",
+  "role": "ADMIN"
+}
+
+###
+
+### 2. Se connecter pour obtenir le Token
+POST http://localhost:8080/auth/token
+Content-Type: application/json
+
+{
+  "email": "amine@test.com",
+  "password": "pass123"
+}
+
+###
+
+### 3. Valider le Token (Copie le résultat du test 2 après le égal)
+GET http://localhost:8081/auth/validate?token=eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhbWluZUB0ZXN0LmNvbSIsImlhdCI6MTc4Nzg1MDY1NCwiZXhwIjoxNzg3ODUyNDU0fQ.jQyb3CPMxLItEGGTBRYlAG44269UwB-_Ynpa1U84wwc
+
+
+### Créer un Hackathon
+POST http://localhost:8080/hackathons
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhbWluZUB0ZXN0LmNvbSIsImlhdCI6MTc4ODA5MTE1MiwiZXhwIjoxNzg4MDkyOTUyfQ.qWGl0gMeAznVge6EAPsthAg8e7xr_oqVBlHW3nfytEo
+Content-Type: application/json
+
+{
+  "title": "RamadanIA 2024",
+  "description": "Hackathon sur l'intelligence artificielle au service du citoyen.",
+  "theme": "IA & Social",
+  "startDate": "2024-03-10",
+  "endDate": "2024-03-12",
+  "location": "Rabat",
+  "status": "PUBLISHED"
+}
+
+### Lister tous les hackathons
+GET http://localhost:8082/hackathons
+
+###
+POST http://localhost:8080/participants
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhbWluZUB0ZXN0LmNvbSIsImlhdCI6MTc4ODA5NTc3NCwiZXhwIjoxNzg4MDk3NTc0fQ.ZpA2WcJ2MbJ3PVlzEzU0pWNESqTnEfCSh22xKKdZTSk
+Content-Type: application/json
+
+{
+  "userId": 1,
+  "firstName": "Amine",
+  "lastName": "Informaticien",
+  "phoneNumber": "+212600000000",
+  "bio": "Étudiant en 4ème année, passionné par le développement microservices et l'IA.",
+  "skills": "Java, Spring Boot, React, Docker"
+}
+
+
+### 1. Créer une équipe (si pas déjà fait)
+POST http://localhost:8080/teams
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhbWluZUB0ZXN0LmNvbSIsImlhdCI6MTc4ODUzMDY4OSwiZXhwIjoxNzg4NTMyNDg5fQ.xbNfYVubxJkZ8WdnTC3Sm9zs_rCZaJ1XAcgtwEWUPTs
+
+{
+  "name": "Team AI Builders",
+  "hackathonId": 1
+}
+
+### 2. Affecter le mentor (ID 2) à l'équipe (ID 1)
+PATCH http://localhost:8080/teams/1/assign-mentor/2
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhbWluZUB0ZXN0LmNvbSIsImlhdCI6MTc4ODUzMDY4OSwiZXhwIjoxNzg4NTMyNDg5fQ.xbNfYVubxJkZ8WdnTC3Sm9zs_rCZaJ1XAcgtwEWUPTs
+
+### 3. Consulter les équipes encadrées par le mentor 2
+GET http://localhost:8080/teams/mentor/2
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhbWluZUB0ZXN0LmNvbSIsImlhdCI6MTc4ODUzMDY4OSwiZXhwIjoxNzg4NTMyNDg5fQ.xbNfYVubxJkZ8WdnTC3Sm9zs_rCZaJ1XAcgtwEWUPTs

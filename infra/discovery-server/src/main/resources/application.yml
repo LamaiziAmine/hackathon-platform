@@ -1,0 +1,13 @@
+server:
+  port: 8761
+
+eureka:
+  client:
+    register-with-eureka: false # Il ne s'enregistre pas lui-même
+    fetch-registry: false # Il n'a pas besoin de récupérer la liste des autres
+  instance:
+    hostname: localhost
+
+spring:
+  application:
+    name: discovery-server
