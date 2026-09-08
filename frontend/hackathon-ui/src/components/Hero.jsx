@@ -1,5 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import { ArrowRight } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 import logoBlanc from '../assets/logo_blanc.png';
 
 const NeuronBackground = () => {
@@ -162,6 +163,8 @@ const NeuronBackground = () => {
 };
 
 const Hero = () => {
+    const navigate = useNavigate();
+
     return (
         <section className="relative h-[calc(100vh-80px)] bg-[#00122e] flex items-center justify-center text-white overflow-hidden">
             <NeuronBackground />
@@ -196,7 +199,10 @@ const Hero = () => {
                     Collaborez, innovez et construisez l'avenir ensemble.
                 </p>
 
-                <button className="group bg-blue-600 hover:bg-blue-700 text-white px-8 py-3.5 rounded-xl text-base md:text-lg font-bold flex items-center gap-2.5 mx-auto transition-all hover:scale-105 shadow-[0_0_30px_rgba(37,99,235,0.4)] cursor-pointer">
+                <button
+                    onClick={() => navigate('/hackathons')}
+                    className="group bg-blue-600 hover:bg-blue-700 text-white px-8 py-3.5 rounded-xl text-base md:text-lg font-bold flex items-center gap-2.5 mx-auto transition-all hover:scale-105 shadow-[0_0_30px_rgba(37,99,235,0.4)] cursor-pointer"
+                >
                     <span>Découvrir la plateforme</span>
                     <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
                 </button>

@@ -2,13 +2,18 @@ import React from 'react';
 import { User } from 'lucide-react';
 import moroccoCoatOfArms from '../assets/morocco-coat-of-arms.webp';
 import logoBleu from '../assets/logo_bleu.png';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link, useLocation } from 'react-router-dom';
 
 const Navbar = () => {
     const navigate = useNavigate();
+    const location = useLocation();
+
+    const isHome = location.pathname === '/';
+    const isHackathons = location.pathname === '/hackathons';
+
     return (
         <nav className="flex items-center justify-between px-10 py-4 bg-white border-b border-gray-100 sticky top-0 z-50">
-            <div className="flex items-center space-x-4">
+            <div className="flex items-center space-x-4 cursor-pointer" onClick={() => navigate('/')}>
                 <div className="w-12 h-12 flex items-center justify-center">
                     <img
                         src={moroccoCoatOfArms}
@@ -24,15 +29,25 @@ const Navbar = () => {
             </div>
 
             <div className="hidden lg:flex space-x-8 text-sm font-medium text-gray-600">
-                <a href="#" className="text-blue-600 border-b-2 border-blue-600 pb-1 font-semibold">Accueil</a>
-                <a href="#" className="hover:text-blue-600 transition-colors">Hackathons</a>
+                <Link
+                    to="/"
+                    className={isHome ? "text-blue-600 border-b-2 border-blue-600 pb-1 font-semibold" : "hover:text-blue-600 transition-colors"}
+                >
+                    Accueil
+                </Link>
+                <Link
+                    to="/hackathons"
+                    className={isHackathons ? "text-blue-600 border-b-2 border-blue-600 pb-1 font-semibold" : "hover:text-blue-600 transition-colors"}
+                >
+                    Hackathons
+                </Link>
                 <a href="#" className="hover:text-blue-600 transition-colors">Actualités</a>
                 <a href="#" className="hover:text-blue-600 transition-colors">Ressources</a>
                 <a href="#contact" className="hover:text-blue-600 transition-colors">Contact</a>
             </div>
 
             <div className="flex items-center space-x-6">
-                <div className="flex items-center space-x-1">
+                <div className="flex items-center space-x-1 cursor-pointer" onClick={() => navigate('/')}>
                     <img
                         src={logoBleu}
                         alt="PlaThon Logo"

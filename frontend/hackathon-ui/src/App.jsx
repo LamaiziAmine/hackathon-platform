@@ -5,6 +5,8 @@ import Hero from './components/Hero';
 import Footer from './components/Footer';
 import Login from './pages/Login';
 import Register from './pages/Register';
+import HackathonList from './pages/HackathonList';
+import ApplyForm from './pages/ApplyForm';
 
 const HomePage = () => {
     useEffect(() => {
@@ -29,6 +31,8 @@ function App() {
                 <Route path="/" element={<HomePage />} />
                 <Route path="/login" element={<Login />} />
                 <Route path="/register" element={<Register />} />
+                <Route path="/hackathons" element={<HackathonList />} />
+                <Route path="/apply/:id" element={<ApplyForm />} />
             </Routes>
         </Router>
     );

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import * as Icons from 'lucide-react';
 import axios from 'axios';
 import moroccoCoatOfArms from '../assets/morocco-coat-of-arms.webp';
@@ -12,6 +12,7 @@ const Login = () => {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
     const navigate = useNavigate();
+    const location = useLocation();
 
     useEffect(() => {
         document.title = "PlaThon - Connexion";
@@ -24,7 +25,8 @@ const Login = () => {
         try {
             const response = await axios.post('http://localhost:8080/auth/token', { email, password });
             localStorage.setItem('token', response.data);
-            navigate('/');
+            const destination = location.state?.from || '/';
+            navigate(destination);
         } catch (err) {
             setError('Identifiants invalides');
         } finally {
