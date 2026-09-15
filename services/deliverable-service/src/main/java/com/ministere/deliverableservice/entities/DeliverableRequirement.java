@@ -1,5 +1,6 @@
 package com.ministere.deliverableservice.entities;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
@@ -10,6 +11,8 @@ public class DeliverableRequirement {
     private Long id;
     private String title;      
     private String description;
+    
+    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm[:ss][.SSS][XXX][X]")
     private LocalDateTime deadline;
     private Long hackathonId;
 

@@ -4,6 +4,7 @@ import * as Icons from 'lucide-react';
 import axios from 'axios';
 import moroccoCoatOfArms from '../assets/morocco-coat-of-arms.webp';
 import logoBleu from '../assets/logo_bleu.png';
+import { parseJwt, isAdminUser } from '../utils/auth';
 
 const Login = () => {
     const [email, setEmail] = useState('');
@@ -24,9 +25,25 @@ const Login = () => {
         setError('');
         try {
             const response = await axios.post('http://localhost:8080/auth/token', { email, password });
-            localStorage.setItem('token', response.data);
-            const destination = location.state?.from || '/';
-            navigate(destination);
+            const token = response.data;
+            localStorage.setItem('token', token);
+
+            const user = parseJwt(token);
+            const isAdmin = isAdminUser(user);
+
+            const requestedFrom = location.state?.from;
+            if (isAdmin) {
+                // Si l'administrateur essayait d'aller sur une sous-page admin spécifique, on l'y emmène, sinon direct /admin
+                if (requestedFrom && requestedFrom.startsWith('/admin')) {
+                    navigate(requestedFrom);
+                } else {
+                    navigate('/admin');
+                }
+            } else if (requestedFrom && requestedFrom !== '/' && requestedFrom !== '/login') {
+                navigate(requestedFrom);
+            } else {
+                navigate('/');
+            }
         } catch (err) {
             setError('Identifiants invalides');
         } finally {

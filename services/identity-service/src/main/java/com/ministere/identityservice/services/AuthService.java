@@ -6,6 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @Service
 public class AuthService {
     @Autowired
@@ -22,7 +25,14 @@ public class AuthService {
     }
 
     public String generateToken(String email) {
-        return jwtService.generateToken(email);
+        UserCredential user = repository.findByEmail(email).orElse(null);
+        Map<String, Object> claims = new HashMap<>();
+        if (user != null) {
+            claims.put("role", user.getRole());
+            claims.put("userId", user.getId());
+            claims.put("name", user.getName());
+        }
+        return jwtService.generateToken(email, claims);
     }
 
     public void validateToken(String token) {

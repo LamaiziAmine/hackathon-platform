@@ -46,8 +46,53 @@ public class DeliverableController {
     }
 
 
+    @GetMapping("/requirements/{id}")
+    public org.springframework.http.ResponseEntity<DeliverableRequirement> getRequirementById(@PathVariable Long id) {
+        return requirementRepository.findById(id)
+                .map(org.springframework.http.ResponseEntity::ok)
+                .orElse(org.springframework.http.ResponseEntity.notFound().build());
+    }
+
+
+    @GetMapping("/submissions/team/{teamId}")
+    public List<Submission> getSubmissionsByTeam(@PathVariable Long teamId) {
+        return submissionRepository.findByTeamId(teamId);
+    }
+
     @GetMapping("/requirements/hackathon/{hackId}")
     public List<DeliverableRequirement> getReqsByHack(@PathVariable Long hackId) {
         return requirementRepository.findByHackathonId(hackId);
+    }
+
+    @GetMapping("/submissions/requirement/{reqId}")
+    public List<Submission> getSubmissionsByRequirement(@PathVariable Long reqId) {
+        return submissionRepository.findByRequirementId(reqId);
+    }
+
+    @GetMapping("/download/{fileName:.+}")
+    public org.springframework.http.ResponseEntity<org.springframework.core.io.Resource> downloadFile(@PathVariable String fileName) {
+        try {
+            java.nio.file.Path filePath = fileStorageService.getFilePath(fileName);
+            org.springframework.core.io.Resource resource = new org.springframework.core.io.UrlResource(filePath.toUri());
+            if (resource.exists() || resource.isReadable()) {
+                return org.springframework.http.ResponseEntity.ok()
+                        .header(org.springframework.http.HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"")
+                        .body(resource);
+            } else {
+                return org.springframework.http.ResponseEntity.notFound().build();
+            }
+        } catch (Exception e) {
+            return org.springframework.http.ResponseEntity.internalServerError().build();
+        }
+    }
+
+    @DeleteMapping("/requirements/{id}")
+    public org.springframework.http.ResponseEntity<?> deleteRequirement(@PathVariable Long id) {
+        try {
+            requirementRepository.deleteById(id);
+            return org.springframework.http.ResponseEntity.ok().build();
+        } catch (Exception e) {
+            return org.springframework.http.ResponseEntity.internalServerError().build();
+        }
     }
 }

@@ -32,4 +32,19 @@ public class HackathonController {
     public Hackathon getById(@PathVariable Long id) {
         return service.getHackathonById(id);
     }
+
+    @PutMapping("/{id}")
+    public Hackathon update(@PathVariable Long id, @RequestBody Hackathon hackathon) {
+        return service.updateHackathon(id, hackathon);
+    }
+
+    @DeleteMapping("/{id}")
+    public org.springframework.http.ResponseEntity<?> delete(@PathVariable Long id) {
+        try {
+            service.deleteHackathon(id);
+            return org.springframework.http.ResponseEntity.ok().build();
+        } catch (Exception e) {
+            return org.springframework.http.ResponseEntity.internalServerError().build();
+        }
+    }
 }

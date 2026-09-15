@@ -48,4 +48,11 @@ public class ApplicationController {
     public List<Application> getByHackathon(@PathVariable Long hackId) {
         return repository.findByHackathonId(hackId);
     }
+
+    @PatchMapping("/{id}/status")
+    public Application updateStatus(@PathVariable Long id, @RequestParam String status) {
+        Application app = repository.findById(id).orElseThrow(() -> new RuntimeException("Candidature non trouvée"));
+        app.setStatus(status); // "ACCEPTED" ou "REJECTED"
+        return repository.save(app);
+    }
 }

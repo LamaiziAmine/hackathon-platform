@@ -16,12 +16,16 @@ public class JwtService {
         return createToken(claims, userName);
     }
 
-    private String createToken(Map<String, Object> claims, String userName) {
+    public String generateToken(String userName, Map<String, Object> claims) {
+        return createToken(claims, userName);
+    }
+
+    public String createToken(Map<String, Object> claims, String userName) {
         return Jwts.builder()
                 .setClaims(claims)
                 .setSubject(userName)
                 .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 30))
+                .setExpiration(new Date(System.currentTimeMillis() + 1000L * 60 * 60 * 24 * 7)) // 7 jours de validité
                 .signWith(SignatureAlgorithm.HS256, SECRET).compact();
     }
 

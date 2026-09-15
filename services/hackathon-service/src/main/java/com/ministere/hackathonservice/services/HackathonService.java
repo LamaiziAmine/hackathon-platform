@@ -27,4 +27,20 @@ public class HackathonService {
     public List<Hackathon> getPublishedHackathons() {
         return repository.findByStatus("PUBLISHED");
     }
+
+    public Hackathon updateHackathon(Long id, Hackathon updatedHackathon) {
+        Hackathon existing = getHackathonById(id);
+        existing.setTitle(updatedHackathon.getTitle());
+        existing.setDescription(updatedHackathon.getDescription());
+        existing.setTheme(updatedHackathon.getTheme());
+        existing.setStartDate(updatedHackathon.getStartDate());
+        existing.setEndDate(updatedHackathon.getEndDate());
+        existing.setLocation(updatedHackathon.getLocation());
+        existing.setStatus(updatedHackathon.getStatus());
+        return repository.save(existing);
+    }
+
+    public void deleteHackathon(Long id) {
+        repository.deleteById(id);
+    }
 }
